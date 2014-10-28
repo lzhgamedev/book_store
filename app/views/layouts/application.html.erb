@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BookStore</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+</head>
+  <body>
+    <header class="navbar navbar-fixed-top">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <%= link_to "BookStore", root_path, class: 'navbar-brand' %>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex4-collapse" >
+            <p class="navbar-text pull-right">
+            <strong><%= customer_signed_in? ? current_customer.name + " 様" : "" %></strong>
+            <% if customer_signed_in? %>
+            <%= link_to "カート表示", carts_path, "data-toggle" => "modal", id: "cart_button", class: 'navbar-link' %>
+            <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'navbar-link' %>
+            <% else %>
+            <%= link_to "ログイン", new_customer_session_path, class: 'navbar-link' %>
+            <% end %>
+          </p>
+        </div>
+      </nav>
+    </header>
+    <div id="main" role="main">
+      <div class="container">
+        <div class="content">
+           <div class="row">
+            <div class="span12">
+              <% flash.each do |name, msg| %>
+                <% if msg.is_a?(String) %>
+                  <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+                    <a class="close" data-dismiss="alert">&#215;</a>
+                    <%= content_tag :div, msg, id: "flash_#{name}" %>
+                  </div>
+                <% end %>
+              <% end %>
+
+              <%= yield %>
+            </div>
+          </div>
+          <footer>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

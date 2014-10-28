@@ -1,0 +1,31 @@
+<h2>ログイン</h2>
+
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-horizontal' }) do |f| %>
+  <div class="control-group">
+    <%= f.label :email, "e-mail", class: 'control-label' %>
+    <div class="controls">
+      <%= f.email_field :email, class: 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :password, "パスワード", class: 'control-label' %>
+    <div class="controls">
+      <%= f.password_field :password, autocomplete: "off", class: 'text_field' %>
+    </div>
+  </div>
+
+  <% if devise_mapping.rememberable? -%>
+  <div class="control-group">
+    <%= f.label :remember_me, "パスワードを記憶する", class: 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :remember_me %>
+    </div>
+  </div>
+  <% end -%>
+
+  <div class="form-actions">
+    <%= f.submit "ログイン", class: 'btn btn-primary' %>
+  </div>
+
+<% end %>

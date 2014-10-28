@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "BookStore Admin" %></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <%= stylesheet_link_tag "application", media: "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <%= yield(:head) %>
+  </head>
+  <body>
+    <header class="navbar navbar-fixed-top">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <%= link_to "BookStore Admin", admin_books_path, class: 'navbar-brand' %>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex4-collapse" >
+            <p class="navbar-text pull-right">
+            <strong><%= manager_signed_in? ? current_manager.name : "" %></strong>
+            <% if manager_signed_in? %>
+            <%= link_to "ログアウト", destroy_manager_session_path, method: :delete, class: 'navbar-link' %>
+            <% else %>
+            <%= link_to "ログイン", new_manager_session_path, class: 'navbar-link' %>
+            <% end %>
+          </p>
+        </div>
+      </nav>
+    </header>
+    <div id="main" role="main">
+      <div class="container">
+        <div class="content">
+           <div class="row">
+            <div class="col-md-12">
+              <% flash.each do |name, msg| %>
+                <% if msg.is_a?(String) %>
+                  <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+                    <a class="close" data-dismiss="alert">&#215;</a>
+                    <%= content_tag :div, msg, id: "flash_#{name}" %>
+                  </div>
+                <% end %>
+              <% end %>
+
+              <%= yield %>
+            </div>
+          </div>
+          <footer>
+          </footer>
+        </div>
+      </div> <!--! end of .container -->
+    </div> <!--! end of #main -->
+  </body>
+</html>

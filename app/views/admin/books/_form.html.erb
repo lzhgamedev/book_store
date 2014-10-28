@@ -1,0 +1,48 @@
+<%= form_for @book, url: @book.id ? admin_book_path(@book) : admin_books_path,
+  html: { class: 'form-horizontal', role: 'form' } do |f| %>
+
+    <% if @book.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= @book.errors.count %>つの入力間違いがあります:</h2>
+
+      <ul>
+      <% @book.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.label :isbn, class: 'control-label' %>
+    <div class="col-lg-10"><%= f.text_field :isbn %></div>
+  </div>
+  <div class="form-group">
+    <%= f.label :title, class: 'control-label' %>
+    <div class="col-lg-10"><%= f.text_field :title, size: 60 %></div>
+  </div>
+  <div class="form-group">
+    <%= f.label :author, class: 'control-label' %>
+    <div class="col-lg-10"><%= f.text_field :author, size: 60 %></div>
+  </div>
+  <div class="form-group">
+    <%= f.label :price, class: 'control-label' %>
+    <div class="col-lg-10"><%= f.number_field :price, size: 60 %></div>
+  </div>
+  <div class="form-group">
+    <%= f.label :category_id, class: 'control-label' %>
+    <div class="col-lg-10"><%= f.select :category_id, Category.order(:id).map{|c| [c.name, c.id]}, class: 'form-control' %></div>
+  </div>
+  <div class="form-group">
+    <%= f.label :display_order, class: 'control-label' %>
+    <div class="col-lg-10"><%= f.number_field :display_order %></div>
+  </div>
+  <div class="form-group">
+    <%= f.label :description, class: 'control-label' %>
+    <div class="col-lg-10"><%= f.text_area :description, rows: 10, cols: 60 %></div>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit nil, class: 'btn btn-primary' %>
+    <%= link_to "戻る", admin_books_path, class: 'btn btn-default' %>
+  </div>
+<% end %>

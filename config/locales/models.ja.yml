@@ -1,0 +1,20 @@
+ja:
+  activerecord:
+    models:
+      book: 書籍
+      cart: ショッピングカート
+    attributes:
+      book:
+        isbn: ISBN
+        title: タイトル
+        author: 著者
+        price: 価格
+        category_id: カテゴリー
+        icon_path: アイコン
+        picture_path: 画像
+        description: 内容
+        display_order: 表示順
+      cart:
+        book_id: 書籍
+        customer_id: 顧客
+        quantity: 数量

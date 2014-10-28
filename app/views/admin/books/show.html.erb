@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h1><%= @book.title %></h1>
+</div>
+
+<div class="row">
+  <div class="span4">
+    <%= image_tag @book.picture_path %>
+  </div>
+  <div class="span5">
+    <dl class="dl-horizontal">
+      <dt><strong>タイトル</strong></dt>
+      <dd><%= @book.title %></dd>
+      <dt><strong>著者</strong></dt>
+      <dd><%= @book.author %></dd>
+      <dt><strong>価格</strong></dt>
+      <dd><%= yen @book.price %></dd>
+      <dt><strong>カテゴリー</strong></dt>
+      <dd><%= @book.category.name %></dd>
+      <dt><strong>ISBN</strong></dt>
+      <dd><%= @book.isbn %></dd>
+      <dt><strong>表示順</strong></dt>
+      <dd><%= @book.display_order %></dd>
+      <dt><strong>内容</strong></dt>
+      <dd><%= @book.description %></dd>
+    </dl>
+    <div class="form-actions">
+      <%= link_to '編集', edit_admin_book_path(@book), class: 'btn btn-primary' %>
+      <%= link_to '戻る', admin_books_path, class: 'btn btn-default' %>
+    </div>
+  </div>
+</div>
