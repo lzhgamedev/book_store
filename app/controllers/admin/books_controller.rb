@@ -56,7 +56,19 @@ class Admin::BooksController < ApplicationController
   # PATCH/PUT /admin/books/1
   def update
     if @book.update(book_params)
-      redirect_to admin_book_path(@book), notice: '更新しました'
+      if request.xhr?
+        render :json =>{
+          id: @book.id,
+          isbn: @book.isbn,
+          title: @book.title, 
+          author: @book.author,
+          price: @book.price,
+          category_id: @book.category_id,
+          description: @book.description
+           }
+      else
+        redirect_to admin_book_path(@book), notice: '更新しました'
+      end
     else
       render action: 'edit'
     end
@@ -64,8 +76,13 @@ class Admin::BooksController < ApplicationController
 
   # DELETE /admin/books/1
   def destroy
+    delete_id = @book.id
     @book.destroy
-    redirect_to admin_books_url, notice: '削除しました'
+    if request.xhr?
+      render :json =>{ delete_id: delete_id }
+    else
+      redirect_to admin_books_url, notice: '削除しました'
+    end
   end
 
   private
