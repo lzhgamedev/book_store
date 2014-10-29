@@ -37,7 +37,22 @@ class Admin::BooksController < ApplicationController
       render action: 'new'
     end
   end
-
+  
+  def reorder
+    if request.xhr?
+      order_infos = params[:order_infos]
+      order_id = 1
+      order_infos.each do |info|
+        if info != ""
+          last_index = info.length - 1
+          id = info[4..last_index]
+          Book.change_display_order(id,order_id)
+          order_id += 1
+        end
+      end
+      render :json => {info: "success"}
+    end
+  end
   # PATCH/PUT /admin/books/1
   def update
     if @book.update(book_params)

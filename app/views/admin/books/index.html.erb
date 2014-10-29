@@ -18,7 +18,7 @@
       <th></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="sortable">
     <% @books.each do |book| %>
       <tr id="<%= "row_#{book.id}" %>">
         <td><%= image_tag book.icon_path %></td>
@@ -26,19 +26,57 @@
         <td><%= book.author %></td>
         <td><%= yen book.price %></td>
         <td>
-          <%= link_to '詳細', admin_book_path(book), class: 'btn btn-sm btn-default' %>
-          <%= link_to '編集', edit_admin_book_path(book), class: 'btn btn-sm btn-primary' %>
+          <% show_btn_id = "show_#{book.id}" %>
+          <% edit_btn_id = "edit_#{book.id}" %>
+          <%= link_to '詳細', admin_book_path(book), remote: true, class: 'btn btn-sm btn-default btn_show', id: show_btn_id%>
+          <%= link_to '編集', edit_admin_book_path(book), remote: true, class: 'btn btn-sm btn-primary btn_edit', id: edit_btn_id  %>
           <%= link_to '削除', admin_book_path(book), method: :delete, data: { confirm: "「#{book.title}」を削除しますか?" }, class: 'btn btn-sm btn-danger' %>
         </td>
       </tr>
     <% end %>
+    <tr>
+      <td id="<%= "row_edit" %>" colspan=5>
+      </td>
+    </tr>
   </tbody>
 </table>
 <br />
+<div id="edit_view">
+</div>
 <%= link_to '新規作成', new_admin_book_path, class: 'btn btn-default' %>
 
 <%= javascript_tag do -%>
 $("#category_selector").change(function() {
   location.href = "<%= admin_category_books_path(9999) %>".replace('9999', $(this).val());
+});
+
+$(document).on('ajax:success','.btn_edit, .btn_show',function (event, data, status, xhr){
+  var btn = $("#"+event.target.id);
+  $("#row_edit").html(data);
+  btn.parent().parent().after($("#row_edit").parent());
+})
+
+$(document).on('ajax:success','.btn-back',function (event, data, status, xhr){
+  $("#row_edit").html("");
+})
+$(document).on('ajax:success','.btn_show_edit',function (event, data, status, xhr){
+  $("#row_edit").html(data);
+})
+
+$(document).on('ajax:success','.form-update',function (event, data, status, xhr){
+  $("#row_edit").html("");
+  //$.get("admin/books/"+)
+})
+
+$(function() {
+  $( "#sortable" ).sortable();
+  $( "#sortable" ).disableSelection();
+});
+
+$( "#sortable" ).sortable ({
+  update: function (event, ui ) {
+    var serialize_order = $( "#sortable" ).sortable( "toArray" );
+    $.post("<%= reorder_admin_books_path %>",{ 'order_infos[]': serialize_order });
+  }
 });
 <% end %>

@@ -24,8 +24,8 @@
       <dd><%= @book.description %></dd>
     </dl>
     <div class="form-actions">
-      <%= link_to '編集', edit_admin_book_path(@book), class: 'btn btn-primary' %>
-      <%= link_to '戻る', admin_books_path, class: 'btn btn-default' %>
+      <%= link_to '編集', edit_admin_book_path(@book), class: 'btn btn-primary btn_show_edit', remote: true %>
+      <%= link_to '戻る', admin_books_path, class: 'btn btn-default btn-back', remote: true  %>
     </div>
   </div>
 </div>

@@ -16,7 +16,7 @@
             <p class="navbar-text pull-right">
             <strong><%= customer_signed_in? ? current_customer.name + " 様" : "" %></strong>
             <% if customer_signed_in? %>
-            <%= link_to "カート表示", carts_path, "data-toggle" => "modal", id: "cart_button", class: 'navbar-link' %>
+            <%= link_to "カート表示", carts_path, remote: true, "data-toggle" => "modal", "data-target" => "#show_cart", id: "cart_button", class: 'navbar-link' %>
             <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'navbar-link' %>
             <% else %>
             <%= link_to "ログイン", new_customer_session_path, class: 'navbar-link' %>
@@ -47,5 +47,38 @@
         </div>
       </div>
     </div>
+
+<div class="modal fade" id="show_cart">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div id="cart_content">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    </div>
   </body>
+    <%= javascript_tag do %>
+    $("#show_cart").on('load',function (event, data, status, xhr) {
+      $("#cart_button").trigger('click');
+     })
+    $("#cart_button").on('ajax:success',function (event, data, status, xhr) {
+    $("#cart_content").html(data);
+  })
+
+    $(document).on('ajax:success',"#cart_num_change",function (event, data, status, xhr) {
+      $("#cart_content").html(data);  
+     })
+    $(document).on('ajax:success',"#cart_form",function (event, data, status, xhr) {
+      $("#cart_content").html(data);  
+     })
+    $(document).on('ajax:success',"#form_cancel #form_cancel",function (event, data, status, xhr) {
+      $("#cart_content").html(data);  
+     })
+
+    <% end %>
+
 </html>

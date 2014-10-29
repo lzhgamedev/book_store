@@ -1,4 +1,5 @@
 class CartsController < ApplicationController
+  layout :false
   before_action :authenticate
   before_action :set_cart, only: [:show, :edit, :update, :destroy]
 
@@ -6,6 +7,10 @@ class CartsController < ApplicationController
   def index
     @carts = Cart.list(current_customer.id)
     @total = Cart.total(current_customer.id)
+    #layout lambda{ |c| c.request.xhr? false : 'application'}
+      # if request.xhr?
+      #  layout = false; 
+      # end
   end
 
   # GET /carts/1
@@ -45,7 +50,12 @@ class CartsController < ApplicationController
   # DELETE /carts/1
   def destroy
     @cart.destroy
-    redirect_to carts_path
+    if request.xml_http_request?
+      index
+      render action: "index"
+    else
+      redirect_to carts_path
+    end
   end
 
   def create_and

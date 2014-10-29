@@ -1,18 +1,3 @@
-<!-- <div class="modal fade" id="myCarts">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div id="cart_content">
-
-        <%= render "index" %>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
- -->
-
-
 <div class="page-header">
   <h1>ショッピングカート</h1>
 </div>
@@ -33,7 +18,7 @@
         <td><%= yen cart.book.price %></td>
         <td><%= cart.quantity %></td>
         <td>
-          <%= link_to "数量変更", edit_cart_path(cart), remote: true, id: "cart_num_change", class: 'btn btn-sm btn-default' %>
+          <%= link_to "数量変更", edit_cart_path(cart), remote: true, id: "cart_num_change", "data-target" => "#cart_num", class: 'btn btn-sm btn-default' %>
           <%= link_to "削除", cart, method: :delete, 
                 data: { confirm: '削除しますか?' }, class: 'btn btn-sm btn-danger' %>
          </td>
