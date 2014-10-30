@@ -36,6 +36,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'poltergeist'
 end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
